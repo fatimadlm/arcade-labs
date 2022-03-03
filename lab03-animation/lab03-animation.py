@@ -1,7 +1,10 @@
 import arcade
-def luna():
-    arcade.draw_circle_filled(100, 500, 50, arcade.color.DIM_GRAY)
-    arcade.draw_circle_filled(130, 500, 50, arcade.color.BLUE_GRAY)
+#dibuja luna
+def luna(x,y):
+    arcade.draw_point(x, y, arcade.color.DIM_GRAY, 5)
+    arcade.draw_circle_filled(100-x, 500-y, 50, arcade.color.DIM_GRAY)
+    arcade.draw_circle_filled(130-x, 500-y, 50, arcade.color.BLUE_GRAY)
+#dibujar nube
 def cloud(x,y):
     arcade.draw_point(x, y, arcade.color.HONEYDEW,5)
     arcade.draw_circle_filled(490 + x, 450 + y, 50, arcade.color.HONEYDEW)
@@ -18,7 +21,8 @@ def on_draw(delta_time):
     # Suelo
     arcade.draw_lrtb_rectangle_filled(0, 800, 200, 0, arcade.color.BUD_GREEN)
     # luna
-    luna()
+    luna(on_draw.luna1_x, 30)
+    on_draw.luna1_x += 1
     # montaña de atras 1
     arcade.draw_polygon_filled([[0, 190],
                                 [100, 300],
@@ -98,10 +102,12 @@ def on_draw(delta_time):
                                arcade.color.BLACK_BEAN)
 
     arcade.finish_render()
-on_draw.cloud1_x = 150
+on_draw.cloud1_x = 70
+on_draw.luna1_x = 6
 def main():
     arcade.open_window(800, 600, "Laboratorio 2")
     arcade.schedule(on_draw, 1 / 60)
     arcade.run()
 main()
+
 
