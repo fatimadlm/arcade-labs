@@ -1,4 +1,5 @@
 import arcade
+MOVEMENT_SPEED = 3
 
 class mariposa:
     def __init__(self, position_x, position_y, radius, color):
@@ -30,6 +31,24 @@ class mariposa:
                                     [self.position_x + 43, self.position_y + 20]],
                                    arcade.color.BLACK_BEAN)
 
+class sol:
+    def __init__(self, position_x, position_y, change_x, change_y, radius, color):
+        self.position_x = position_x
+        self.position_y = position_y
+        self.change_x = change_x
+        self.change_y = change_y
+        self.radius = radius
+        self.color = color
+
+    def draw(self):
+        arcade.draw_circle_filled(self.position_x, self.position_y, self.radius, self.color)
+
+    def update(self):
+        self.position_y += self.change_y
+        self.position_x += self.change_x
+
+
+
 
 
 class MyGame(arcade.Window):
@@ -38,16 +57,19 @@ class MyGame(arcade.Window):
         super().__init__(width, height, title)
         self.set_mouse_visible(False)
         self.mariposa = mariposa(600, 300, 50, arcade.color.INDIAN_RED)
+        self.sol = sol(400, 300,0,0,100, arcade.color.CANARY_YELLOW)
 
     def on_draw(self):
         arcade.start_render()
         # cielo
         arcade.set_background_color(arcade.color.BLUE_GRAY)
-        # Suelo
-        arcade.draw_lrtb_rectangle_filled(0, 800, 200, 0, arcade.color.BUD_GREEN)
         # luna
         arcade.draw_circle_filled(100, 500, 50, arcade.color.DIM_GRAY)
         arcade.draw_circle_filled(130, 500, 50, arcade.color.BLUE_GRAY)
+        #sol
+        self.sol.draw()
+        # Suelo
+        arcade.draw_lrtb_rectangle_filled(0, 800, 200, 0, arcade.color.BUD_GREEN)
         # montaña de atras 1
         arcade.draw_polygon_filled([[0, 190],
                                     [100, 300],
@@ -58,8 +80,7 @@ class MyGame(arcade.Window):
                                     [700, 300],
                                     [800, 200]],
                                    arcade.color.CELADON_GREEN)
-        # sol
-        arcade.draw_circle_filled(400, 300, 100, arcade.color.CANARY_YELLOW)
+
         # Montaña grande
         arcade.draw_polygon_filled([[0, 190],
                                     [300, 400],
@@ -99,6 +120,7 @@ class MyGame(arcade.Window):
                                     [500, 270],
                                     [570, 130]],
                                    arcade.color.ETON_BLUE)
+
         # NUBE
         arcade.draw_circle_filled(490, 450, 50, arcade.color.HONEYDEW)
         arcade.draw_circle_filled(530, 450, 50, arcade.color.HONEYDEW)
@@ -110,18 +132,36 @@ class MyGame(arcade.Window):
 
         self.mariposa.draw()
 
+
     def on_mouse_motion(self, x, y, dx, dy):
         self.mariposa.position_x = x
 
         self.mariposa.position_y = y
 
-    def on_mouse_press(self, x, y, button, modifiers):
-        """ Called when the user presses a mouse button. """
+    def update(self, delta_time):
+        self.sol.update()
 
+    def on_mouse_press(self, x, y, button, modifiers):
         if button == arcade.MOUSE_BUTTON_LEFT:
             print("Coordenadas con botón izquierdo", x, y)
         elif button == arcade.MOUSE_BUTTON_RIGHT:
             print("Coordenadas con botón derecho", x, y)
+
+    def on_key_press(self, key, modifiers):
+        if key == arcade.key.LEFT:
+            self.sol.change_x = -MOVEMENT_SPEED
+        elif key == arcade.key.RIGHT:
+            self.sol.change_x = MOVEMENT_SPEED
+        elif key == arcade.key.UP:
+            self.sol.change_y = MOVEMENT_SPEED
+        elif key == arcade.key.DOWN:
+            self.sol.change_y = -MOVEMENT_SPEED
+
+    def on_key_release(self, key, modifiers):
+        if key == arcade.key.LEFT or key == arcade.key.RIGHT:
+            self.sol.change_x = 0
+        elif key == arcade.key.UP or key == arcade.key.DOWN:
+            self.sol.change_y = 0
 
 
 def main():
@@ -130,4 +170,3 @@ def main():
 
 
 main()
-n()
