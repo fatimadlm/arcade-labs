@@ -115,6 +115,14 @@ class MyGame(arcade.Window):
 
         self.mariposa.position_y = y
 
+    def on_mouse_press(self, x, y, button, modifiers):
+        """ Called when the user presses a mouse button. """
+
+        if button == arcade.MOUSE_BUTTON_LEFT:
+            print("Coordenadas con botón izquierdo", x, y)
+        elif button == arcade.MOUSE_BUTTON_RIGHT:
+            print("Coordenadas con botón derecho", x, y)
+
 
 def main():
     window = MyGame(800, 600, "Control")
