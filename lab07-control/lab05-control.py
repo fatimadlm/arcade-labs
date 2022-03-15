@@ -1,5 +1,6 @@
 import arcade
 MOVEMENT_SPEED = 3
+
 class mariposa:
     def __init__(self, position_x, position_y, radius, color):
         self.position_x = position_x
