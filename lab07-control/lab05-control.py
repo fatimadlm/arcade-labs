@@ -132,7 +132,6 @@ class MyGame(arcade.Window):
 
         self.mariposa.draw()
 
-
     def on_mouse_motion(self, x, y, dx, dy):
         self.mariposa.position_x = x
 
